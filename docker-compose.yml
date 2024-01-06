@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  express-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres-db
+    environment:
+      PGUSER: postgres
+      PGHOST: postgres-db
+      PGDATABASE: todo
+      PGPASSWORD: 12345
+      PGPORT: 5432
+
+  postgres-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: todo
+    ports:
+      - "5432:5432"
