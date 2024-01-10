@@ -38,7 +38,7 @@ test("message data not found", (done)=>{
             })
             .catch(done)
 })
-
+let todoId
 test("should successfully create data", (done)=>{
     request(app)
         .post('/todo/')
@@ -50,6 +50,7 @@ test("should successfully create data", (done)=>{
             .then(response=>{
                 const todo = response.body;
                 expect(todo).toBeTruthy();
+                todoId = '/todo/'+todo.id;
                 done()
             })
             .catch(done)
@@ -70,17 +71,17 @@ test("it should send an incorrect input message", (done)=>{
 
 // hanya bisa dipake sekali jadi saya comment saja 
 
-// test("should successfully delete data", (done)=>{
-//     request(app)
-//         .delete('/todo/2')
-//         .expect(200)
-//             .then(response=>{
-//                 const {message} = response.body;
-//                 expect(message).toBe("Delete Success")
-//                 done()
-//             })
-//             .catch(done)
-// })
+test("should successfully delete data", (done)=>{
+    request(app)
+        .delete(todoId)
+        .expect(200)
+            .then(response=>{
+                const {message} = response.body;
+                expect(message).toBe("Delete Success")
+                done()
+            })
+            .catch(done)
+})
 
 test("should not be able to delete todo data", (done)=>{
     request(app)
